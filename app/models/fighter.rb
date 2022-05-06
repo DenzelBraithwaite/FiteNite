@@ -7,18 +7,18 @@ class Fighter
     # Fighter's name
     @name = stats[:name]
     # How many hitpoints the fighter has until knocked out.
-    @base_health = stats[:health]
+    @base_health = 100
     # How much damage does the fighter do.
-    @base_strength = stats[:strength]
+    @base_strength = 10
     # Chance of hitting or missing the target.
-    @base_accuracy = stats[:accuracy]
+    @base_accuracy = 100
     # How many times the fighter will hit in one turn.
-    @base_number_of_hits = stats[:number_of_hits]
+    @base_number_of_hits = 1
     # The higher the speed, the more likely to hit first.
-    @base_speed = stats[:speed]
+    @base_speed = 1
     # Class, different classes have different bonus stats
     @class = stats[:class]
-    set_class(stats)
+    set_class
   end
 
   def alive?
@@ -29,12 +29,26 @@ class Fighter
     @base_health.zero?
   end
 
-  def set_class(fighter_class)
-    case fighter_class
-    when :balanced then puts 'balanced'
-    when :tank then puts 'tank'
-    when :glass_canon then puts 'glass canon'
-    when :assassin then puts 'assassin'
+  def set_class
+    case @class
+    when :balanced
+      self.strength = rand(15..25),
+      self.accuracy -= 10,
+      self.speed += 1
+    when :tank
+      self.health += 30
+    when :glass_canon
+      self.health -= 30,
+      self.strength rand(10..20),
+      self.accuracy: 100,
+      self.number_of_hits: 1,
+      self.speed: 1,
+    when :assassin
+      self.health += 30,
+      self.strength: 10,
+      self.accuracy: 100,
+      self.number_of_hits: 1,
+      self.speed: 1,
     end
   end
 end

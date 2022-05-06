@@ -10,7 +10,7 @@ class FighterRepo
       accuracy: 90,
       number_of_hits: 1,
       speed: 2,
-      class: 'balanced'
+      class: :balanced
     )
     # Glass canon fighter
     @fighter_sharpie = Fighter.new(
@@ -20,7 +20,7 @@ class FighterRepo
       accuracy: 80,
       number_of_hits: 2,
       speed: 4,
-      class: 'glass canon'
+      class: :'glass canon'
     )
     # Tanky fighter
     @fighter_pff = Fighter.new(
@@ -30,7 +30,7 @@ class FighterRepo
       accuracy: 100,
       number_of_hits: 1,
       speed: 1,
-      class: 'tank'
+      class: :tank
     )
     # Wild card fighter
     @fighter_sohail = Fighter.new(
@@ -40,7 +40,7 @@ class FighterRepo
       accuracy: 60,
       number_of_hits: rand(2..4),
       speed: 3,
-      class: 'assassin'
+      class: :assassin
     )
   end
 end
