@@ -1,12 +1,20 @@
 require_relative 'fighter'
 
 class Warrior < Fighter
-  def initialize(stats = {})
-    @name = stats[:name]
-    @health = 60
-    @strength = rand(15..20)
-    @accuracy = 60
-    @number_of_hits = rand(2..4)
-    @speed = 4
+  def initialize(name)
+    super
+    @health = 110
+    @strength = rand(15..25)
+    @accuracy = 75
+    @number_of_hits = 2
+    @speed = 2
+  end
+
+  def refresh_strength
+    @strength = rand(15..25)
+  end
+
+  def refresh_number_of_hits
+    @number_of_hits = 2
   end
 end

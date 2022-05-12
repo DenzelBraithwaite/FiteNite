@@ -1,12 +1,18 @@
 require_relative 'fighter'
 
 class Balanced < Fighter
-  def initialize(stats = {})
-    @name = stats[:name]
-    super(health)
-    super(number_of_hits)
-    @strength = rand(15..20)
+  def initialize(name)
+    super
+    @strength = 20
     @accuracy = 90
-    @speed = 2
+    @speed = 3
+  end
+
+  def refresh_strength
+    @strength = 20
+  end
+
+  def refresh_number_of_hits
+    @number_of_hits = 1
   end
 end

@@ -3,9 +3,9 @@ class Fighter
   attr_reader :name
   attr_accessor :health, :strength, :accuracy, :number_of_hits, :speed
 
-  def initialize(stats = {})
+  def initialize(name)
     # Fighter's name
-    # @name = stats[:name]
+    @name = name
     # How many hitpoints the fighter has until knocked out.
     @health = 100
     # How much damage does the fighter do.
@@ -18,27 +18,25 @@ class Fighter
     @speed = 1
   end
 
+  # Returns true if the fighter is alive
   def alive?
     @health.positive?
   end
 
+  # Returns true if the fighter is dead
   def dead?
     @health.zero?
   end
 
-  # Each fighter will need a method to randomize their damage each time!!!!!!!!!!!!!!
-  def attack
-    hits_landed = 0
-    @number_of_hits.times do
-      hits_landed += 1 if hit_landed?
-    end
-    puts "#{@name} hit #{hits_landed} time(s)"
-    @strength
-  end
+  # Randomizes strength again, overwritten by child class methods.
+  def refresh_strength; end
+
+  # Randomizes number of hits again, overwritten by child class methods.
+  def refresh_number_of_hits; end
 
   # Determines if the hit lands
   def hit_landed?
     miss_chance = rand(0..100)
-    self.accuracy >= miss_chance
+    @accuracy >= miss_chance
   end
 end
