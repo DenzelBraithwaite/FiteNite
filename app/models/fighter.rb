@@ -34,6 +34,11 @@ class Fighter
   # Randomizes number of hits again, overwritten by child class methods.
   def refresh_number_of_hits; end
 
+  # Determines if fighter is a healer
+  def healer?
+    instance_of?(Healer)
+  end
+
   # Determines if the hit lands
   def hit_landed?
     miss_chance = rand(0..100)

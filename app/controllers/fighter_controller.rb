@@ -1,17 +1,41 @@
-class FighterController
-  def initialize(repo)
+class FighterController < ParentController
+  def initialize(repo, view)
     @repo = repo
-    @fighter_danby = @repo.fighter_danby
-    @fighter_pff = @repo.fighter_pff
-    @fighter_sharpie = @repo.fighter_sharpie
-    @fighter_sohail = @repo.fighter_sohail
+    @view = view
   end
 
   # Starts game
   def run
     system('clear')
-    battle(@fighter_sharpie, @fighter_sohail)
-    puts 'End'
+    @view.view_fighters
+    action = gets.chomp.to_i
+    pick_player(action)
+    system('clear')
+    @view.display_fighters(@fighter_one, @fighter_two)
+    battle(@fighter_one, @fighter_two)
+  end
+
+  # Picks player before battle
+  def pick_player(action)
+    case action
+    when 1 then @fighter_one = @repo.fighters[0]
+    when 2 then @fighter_one = @repo.fighters[1]
+    when 3 then @fighter_one = @repo.fighters[2]
+    when 4 then @fighter_one = @repo.fighters[3]
+    when 5 then @fighter_one = @repo.fighters[4]
+    else
+      puts "Fighter doesn't exist, try again"
+      print "> "
+      action = gets.chomp.to_i
+      pick_player(action)
+    end
+    pick_opponent
+  end
+
+  # Pick opponent fighter (computer)
+  def pick_opponent
+    @fighter_two = @repo.fighters.sample
+    @fighter_two = @repo.fighters.sample while @fighter_two == @fighter_one
   end
 
   # Full battle
@@ -21,7 +45,7 @@ class FighterController
       puts "Round: #{round}".cyan.blink
       round(fighter_one, fighter_two)
       round += 1
-      sleep(0.5)
+      continue_prompt
     end
     battle_over(fighter_one, fighter_two)
   end
@@ -31,8 +55,10 @@ class FighterController
     total_damage = 0
     # Set number of hits
     fighter.refresh_number_of_hits
+    # Chance to heal if player is a healer
+    fighter.heal if fighter.healer?
     # Let player know how many times fighter will hit
-    puts "#{fighter.name} hit #{fighter.number_of_hits.to_s.cyan} time(s)"
+    puts "#{fighter.name.light_cyan} hit #{fighter.number_of_hits.to_s.cyan} time(s)"
     # Check how many times the fighter attacks
     fighter.number_of_hits.times do
       # Check if attack landed
@@ -40,14 +66,14 @@ class FighterController
         # Reset damage
         fighter.refresh_strength
         total_damage += fighter.strength
-        puts "#{fighter.name} attacked with #{fighter.strength.to_s.red} damage"
+        puts "#{fighter.name.light_cyan} attacked with #{fighter.strength.to_s.red} damage"
       else
-        puts "#{fighter.name} #{'missed'.light_yellow}!"
+        puts "#{fighter.name.light_cyan} #{'missed'.light_yellow}!"
       end
     end
     # Calculate damage
     total_damage
-    end
+  end
 
   # Logic for each round.
   def round(fighter_one, fighter_two)
@@ -87,16 +113,18 @@ class FighterController
 
   # Displays remaining health for players
   def health_remaining(fighter_one, fighter_two)
-    puts "#{fighter_two.name} has #{fighter_two.health.to_s.green} health remaining"
-    puts "#{fighter_one.name} has #{fighter_two.health.to_s.green} health remaining"
+    puts ''
+    puts 'Results:'.cyan
+    puts "#{fighter_two.name.light_cyan} has #{fighter_two.health.to_s.green} health remaining"
+    puts "#{fighter_one.name.light_cyan} has #{fighter_one.health.to_s.green} health remaining"
   end
 
   # End of battle message
   def battle_over(fighter_one, fighter_two)
     if fighter_one.dead?
-      puts "#{fighter_one.name} just died."
+      puts "#{fighter_one.name.light_cyan} just died."
     else
-      puts "#{fighter_two.name} just died."
+      puts "#{fighter_two.name.light_cyan} just died."
     end
   end
 

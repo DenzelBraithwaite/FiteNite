@@ -3,16 +3,12 @@ require_relative 'fighter'
 class Tank < Fighter
   def initialize(name)
     super
-    # super(strength)
-    # super(accuracy)
-    # super(number_of_hits)
-    # super(speed)
-    # @name = name
-    @health = 130
+    @strength = 20
+    @health = 200
   end
 
   def refresh_strength
-    @strength = 10
+    @strength = 15
   end
 
   def refresh_number_of_hits

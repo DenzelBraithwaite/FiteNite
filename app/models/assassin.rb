@@ -3,7 +3,7 @@ require_relative 'fighter'
 class Assassin < Fighter
   def initialize(name)
     super
-    @health = 65
+    @health = 90
     @strength = rand(20..30)
     @accuracy = 60
     @number_of_hits = rand(2..4)
