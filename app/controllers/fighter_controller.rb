@@ -6,13 +6,29 @@ class FighterController < ParentController
 
   # Starts game
   def run
-    system('clear')
-    @view.view_fighters
-    action = gets.chomp.to_i
-    pick_player(action)
-    system('clear')
-    @view.display_fighters(@fighter_one, @fighter_two)
-    battle(@fighter_one, @fighter_two)
+    @running = true
+    while @running
+      clear_screen
+      @view.main_menu
+      action = gets.chomp.to_i
+      select_main_menu_option(action)
+    end
+  end
+
+  # Picks player main menu option
+  def select_main_menu_option(action)
+    case action
+    when 1
+      clear_screen
+      @view.view_fighters
+      action = gets.chomp.to_i
+      pick_player(action)
+    when 2
+      clear_screen
+      @view.view_fighter_details
+      continue_prompt
+    when 9 then @running = false
+    end
   end
 
   # Picks player before battle
@@ -25,11 +41,17 @@ class FighterController < ParentController
     when 5 then @fighter_one = @repo.fighters[4]
     else
       puts "Fighter doesn't exist, try again"
-      print "> "
+      print '> '
       action = gets.chomp.to_i
       pick_player(action)
     end
+    @view.pick_a_name
+    @fighter_one.name = gets.chomp.capitalize
     pick_opponent
+    clear_screen
+    @view.display_fighters(@fighter_one, @fighter_two)
+    continue_prompt
+    battle(@fighter_one, @fighter_two)
   end
 
   # Pick opponent fighter (computer)
@@ -43,11 +65,11 @@ class FighterController < ParentController
     round = 1
     while fighter_one.alive? && fighter_two.alive?
       puts "Round: #{round}".cyan.blink
-      round(fighter_one, fighter_two)
+      round(@fighter_one, @fighter_two)
       round += 1
       continue_prompt
     end
-    battle_over(fighter_one, fighter_two)
+    battle_over(@fighter_one, @fighter_two)
   end
 
   # Prepares attack
@@ -90,7 +112,7 @@ class FighterController < ParentController
   end
 
   def who_moves_first(fighter_one, fighter_two)
-    fighters = %w[fighter_one fighter_two]
+    fighters = [fighter_one, fighter_two]
     if fighter_one.speed > fighter_two.speed
       [fighter_one, fighter_two]
     elsif fighter_one.speed == fighter_two.speed

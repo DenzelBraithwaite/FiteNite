@@ -1,21 +1,20 @@
 # Defines a fighter and their stats in battle
 class Fighter
-  attr_reader :name
-  attr_accessor :health, :strength, :accuracy, :number_of_hits, :speed
+  attr_accessor :name, :health, :strength, :accuracy, :number_of_hits, :speed
 
-  def initialize(name)
+  def initialize
     # Fighter's name
-    @name = name
+    @name = nil || 'CPU'
     # How many hitpoints the fighter has until knocked out.
-    @health = 100
+    @health = 110
     # How much damage does the fighter do.
-    @strength = 10
+    @strength = rand(30..40)
     # Chance of hitting or missing the target.
-    @accuracy = 100
+    @accuracy = 95
     # How many times the fighter will hit in one turn.
     @number_of_hits = 1
     # The higher the speed, the more likely to hit first.
-    @speed = 1
+    @speed = 2
   end
 
   # Returns true if the fighter is alive
@@ -36,7 +35,7 @@ class Fighter
 
   # Determines if fighter is a healer
   def healer?
-    instance_of?(Healer)
+    instance_of?(Priest)
   end
 
   # Determines if the hit lands

@@ -1,16 +1,12 @@
 require_relative 'fighter'
 
 class Balanced < Fighter
-  def initialize(name)
+  def initialize
     super
-    @health = 110
-    @strength = rand(30..40)
-    @accuracy = 95
-    @speed = 3
   end
 
   def refresh_strength
-    @strength = rand(18..22)
+    @strength = rand(30..40)
   end
 
   def refresh_number_of_hits

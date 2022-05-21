@@ -1,7 +1,7 @@
 require_relative 'fighter'
 
 class Tank < Fighter
-  def initialize(name)
+  def initialize
     super
     @strength = 20
     @health = 200

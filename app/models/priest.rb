@@ -1,7 +1,7 @@
 require_relative 'fighter'
 
-class Healer < Fighter
-  def initialize(name)
+class Priest < Fighter
+  def initialize
     super
     @health = 100
     @accuracy = 90
@@ -20,10 +20,10 @@ class Healer < Fighter
 
   def heal
     chance_to_heal = rand(1..10)
-    if chance_to_heal >= 8
-      heal_amount = rand(15..25)
-      @health += heal_amount
-      puts "#{@name.light_cyan} #{"healed for #{heal_amount.to_s}".green}"
-    end
+    return if chance_to_heal < 7
+
+    heal_amount = rand(15..25)
+    @health += heal_amount
+    puts "#{@name.light_cyan} #{"healed for #{heal_amount.to_s}".green}"
   end
 end
